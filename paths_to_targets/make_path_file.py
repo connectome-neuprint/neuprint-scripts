@@ -48,8 +48,8 @@ class Graph:
             pruned = pruned.append(layer_edges, ignore_index=True)
             frontier = set(layer_edges.SRC.values) | frontier
             print(layer + 1, lc1, len(layer_edges))
-
-        return pruned.reset_index()
+        print(pruned)
+        return pruned.reset_index(drop=True)
 
     def make_graph(self, threshold=1):
         frontier = set(self.sources)
@@ -62,12 +62,12 @@ class Graph:
             explored = frontier | explored
             frontier = set(layer_bodies['DES'].values) - explored
             graph = graph.append(layer_bodies, ignore_index=True)
-
+        print(graph)
         self.graph = self._prune_graph(graph)
         return self.graph
 
     def graph_to_csv(self, file_name):
-        self.graph.to_csv(file_name)
+        self.graph.to_csv(file_name, index=False)
 
     def compute_paths(self):
         if self.graph.empty:
@@ -104,7 +104,7 @@ class Graph:
         self.paths = right
 
     def paths_to_csv(self, file_name):
-        self.paths.to_csv(file_name)
+        self.paths.to_csv(file_name, index=False)
 
 
 def get_body_ids_from_roi(roi,
@@ -129,8 +129,8 @@ def get_body_ids_from_roi(roi,
 
     results = client.fetch_custom(query)
     results['ROIINFO'] = results['ROIINFO'].apply(ast.literal_eval)
-    results['PRE'] = results['ROIINFO'].apply(lambda x: int(x['FB']['pre']))
-    results['POST'] = results['ROIINFO'].apply(lambda x: int(x['FB']['post']))
+    results['PRE'] = results['ROIINFO'].apply(lambda x: int(x[roi]['pre']))
+    results['POST'] = results['ROIINFO'].apply(lambda x: int(x[roi]['post']))
 
     results = results[results['PRE'] + results['POST'] >= total_threshold]
     print(pre_threshold)
