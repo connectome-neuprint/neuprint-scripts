@@ -48,7 +48,6 @@ class Graph:
             pruned = pruned.append(layer_edges, ignore_index=True)
             frontier = set(layer_edges.SRC.values) | frontier
             print(layer + 1, lc1, len(layer_edges))
-        print(pruned)
         return pruned.reset_index(drop=True)
 
     def make_graph(self, threshold=1):
@@ -62,7 +61,6 @@ class Graph:
             explored = frontier | explored
             frontier = set(layer_bodies['DES'].values) - explored
             graph = graph.append(layer_bodies, ignore_index=True)
-        print(graph)
         self.graph = self._prune_graph(graph)
         return self.graph
 
@@ -133,7 +131,6 @@ def get_body_ids_from_roi(roi,
     results['POST'] = results['ROIINFO'].apply(lambda x: int(x[roi]['post']))
 
     results = results[results['PRE'] + results['POST'] >= total_threshold]
-    print(pre_threshold)
     results = results[results['PRE'] >= pre_threshold]
     results = results[results['POST'] >= post_threshold]
 
