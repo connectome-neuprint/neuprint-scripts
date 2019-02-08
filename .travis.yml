@@ -1,11 +1,12 @@
 language: python
+
+matrix:
+  include:
+
 python:
   - "3.6"
  # Install dependencies
-install:
-  - pip install -r requirements.txt
-   # Include MySQL
+#install:
+#  - pip install -r requirements.txt
 script:
-  - pylint --disable=C,W *.py
-#   - python test_base.py TestErrors TestDiagnostics
-
+  - pylint --disable=C,W paths_to_targets/*.py

@@ -1,3 +1,0 @@
-numpy
-pandas
-pylint>=2.1.1

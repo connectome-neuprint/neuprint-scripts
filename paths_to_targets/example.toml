@@ -1,0 +1,15 @@
+[client]
+server = "emdata1.int.janelia.org:11000"
+token = ""
+
+[job]
+sources = []
+targets = []
+roi_target = ""
+roi_threshold = 0
+roi_pre_threshold = 0
+roi_post_threshold = 0
+depth = 0
+connection_threshold = 0
+graph_file = ""
+path_file = ""
