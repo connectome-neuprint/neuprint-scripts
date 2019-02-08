@@ -6,7 +6,7 @@ matrix:
 python:
   - "3.6"
  # Install dependencies
-#install:
-#  - pip install -r requirements.txt
+install:
+  - pip install -r requirements.txt
 script:
   - pylint --disable=C,W paths_to_targets/*.py
