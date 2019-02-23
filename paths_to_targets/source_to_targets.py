@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+'''
+Module finds all paths between a list of source body ids and targets body ids from Neuprint.
+This is done by computing a breadth-first search starting with the the source body ids and
+finding all downstream partners. This is repeated until the maximum search depth is
+reached.
+
+
+'''
 from argparse import ArgumentParser
 import ast
 import re
@@ -142,19 +151,40 @@ def parse_arguments():
 
     ##### Commandline arguments #####
     parser = ArgumentParser()
-    parser.add_argument('-R', '--run_file')
-    parser.add_argument('-S', '--server')
-    parser.add_argument('-T', '--token')
-    parser.add_argument('-s', '--sources', nargs='+')
-    parser.add_argument('-t', '--targets', nargs='+')
-    parser.add_argument('-r', '--roi_target')
-    parser.add_argument('--roi_threshold', type=int)
-    parser.add_argument('--roi_pre_threshold', type=int)
-    parser.add_argument('--roi_post_threshold', type=int)
-    parser.add_argument('-d', '--depth', type=int)
-    parser.add_argument('-ct', '--connection_threshold', type=int)
-    parser.add_argument('-g', '--graph_file')
-    parser.add_argument('-p', '--path_file')
+    parser.add_argument('-R', '--run_file',
+                        help='Input TOML containing execution parameters. Any parameters '
+                             'that are manually specified '
+                             'will override values in the file.')
+    parser.add_argument('-S', '--server',
+                        help='Neuprint server address')
+    parser.add_argument('-T', '--token',
+                        help='Neuprint API Token')
+    parser.add_argument('-s', '--sources', nargs='+',
+                        help='Comma separated list of body ids to start paths from.')
+    parser.add_argument('-t', '--targets', nargs='+',
+                        help='Comma separated list of body ids that paths target.')
+    parser.add_argument('-r', '--roi_target',
+                        help='Specify a Region Of Interest (ROI) from which to pull target bodies.')
+    parser.add_argument('--roi_threshold', type=int,
+                        help='Requires that bodies returned from the ROI have a combined total '
+                             'presynaptic AND postsynaptic count greater than or equal to the '
+                             'integer value specified.  Degault=0')
+    parser.add_argument('--roi_pre_threshold', type=int,
+                        help='Requires that bodies returned from the ROI have a total '
+                             'presynaptic count greater than or equal to the '
+                             'integer value specified.  Degault=0')
+    parser.add_argument('--roi_post_threshold', type=int,
+                        help='Requires that bodies returned from the ROI have a total '
+                             'postsynaptic count greater than or equal to the '
+                             'integer value specified.  Degault=0')
+    parser.add_argument('-d', '--depth', type=int,
+                        help='Maaximum depth of path.')
+    parser.add_argument('-ct', '--connection_threshold', type=int,
+                        help='Minimum connection strength between bodies in path.')
+    parser.add_argument('-g', '--graph_file',
+                        help='Output file location for the connection graph edges.')
+    parser.add_argument('-p', '--path_file',
+                        help='Output file location for each path based on connection permutations.')
     cmd_args = parser.parse_args()
 
     ##### Run file arguments #####
