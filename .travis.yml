@@ -17,7 +17,7 @@ before_install:
 install:
   - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
   - source activate test
-  - conda install -y -c flyem-forge neuprint-python
-  - conda install --file paths_to_targets/requirements.txt --yes
+  - conda install --yes -c flyem-forge neuprint-python
+  - conda install --yes --file paths_to_targets/requirements.txt --yes
 script:
   - pylint --disable=C,W,R paths_to_targets/*.py
