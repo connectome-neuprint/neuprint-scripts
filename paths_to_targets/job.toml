@@ -1,15 +1,16 @@
 [client]
 server = "emdata1.int.janelia.org:11000"
-token = ""
+token = "Add your token here"
 
 [job]
-sources = []
+sources = [1, 2, 3]
+depth = 10
+connection_threshold = 20
 targets = []
-roi_target = ""
+roi_target = "FB"
 roi_threshold = 0
-roi_pre_threshold = 0
-roi_post_threshold = 0
-depth = 0
-connection_threshold = 0
-graph_file = ""
-path_file = ""
+roi_pre_threshold = 10
+roi_post_threshold = 20
+graph_file = "graph.csv"
+path_file = "paths.csv"
+verbose = true
