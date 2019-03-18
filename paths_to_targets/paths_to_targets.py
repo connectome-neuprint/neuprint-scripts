@@ -103,8 +103,9 @@ class Graph:
         """
         query_template = (
             'WITH {IDS} AS SRC\n'
+            'UNWIND SRC AS ID\n'
             'MATCH (n:`{HEMIBRAIN}`)-[w:ConnectsTo]->(m:`{HEMIBRAIN}`)\n'
-            'WHERE n.bodyId IN SRC AND w.weight >= {THRESHOLD}\n'
+            'WHERE n.bodyId = ID AND w.weight >= {THRESHOLD}\n'
             'RETURN n.bodyId AS SRC, m.bodyId AS DES, w.weight AS WEIGHT'
         )
 
@@ -116,6 +117,7 @@ class Graph:
             query = query_template.format(
                 HEMIBRAIN='hemibrain-Segment', IDS=list(ids), THRESHOLD=threshold
             )
+        # print(query)
         results = self._client.fetch_custom(query)
         return results
 
